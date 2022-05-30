@@ -4,13 +4,13 @@ let objects = [];
 let canvas, ctx;
 const width = 640;
 const height = 420;
+const newImage = document.getElementById("newImage");
+
+let img = new Image(width, height);
+img.src = "./3.jpg";
 
 async function make() {
-  img = new Image();
-  img.src = "./3.jpg";
-  img.width = width;
-  img.height = height;
-
+  console.log("loading model...");
   objectDetector = await ml5.objectDetector("cocossd", startDetecting);
 
   canvas = createCanvas(width, height);
@@ -56,12 +56,31 @@ function draw() {
     ctx.stroke();
     ctx.closePath();
   }
+  console.log("draw");
+  console.log(objects);
 }
 
 function createCanvas(w, h) {
-  const canvas = document.createElement("canvas");
+  const canvas = document.getElementById("canvas");
   canvas.width = w;
   canvas.height = h;
-  document.body.appendChild(canvas);
   return canvas;
 }
+
+function previewFile() {
+  const file = document.querySelector("input[type=file]").files[0];
+  const reader = new FileReader();
+
+  reader.onloadend = function () {
+    img.src = reader.result;
+    startDetecting();
+  };
+
+  if (file) {
+    reader.readAsDataURL(file);
+  } else {
+    img.src = "";
+  }
+}
+
+newImage.addEventListener("change", previewFile);
