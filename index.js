@@ -46,13 +46,20 @@ function draw() {
 
   ctx.drawImage(img, 0, 0, width, height);
   for (let i = 0; i < objects.length; i += 1) {
-    ctx.font = "16px Arial";
-    ctx.fillStyle = "green";
-    ctx.fillText(objects[i].label, objects[i].x + 4, objects[i].y + 16);
+    ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+    ctx.fillRect(objects[i].x, objects[i].y, objects[i].width, 20);
+
+    ctx.font = "16px Roboto";
+    ctx.fillStyle = "rgba(255, 255, 255)";
+    ctx.fillText(
+      `${objects[i].label} - ${Math.floor(objects[i].confidence * 1000) / 10}%`,
+      objects[i].x + 4,
+      objects[i].y + 16
+    );
 
     ctx.beginPath();
     ctx.rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
-    ctx.strokeStyle = "green";
+    ctx.strokeStyle = "rgb(0, 0, 0)";
     ctx.stroke();
     ctx.closePath();
   }
