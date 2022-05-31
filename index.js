@@ -4,13 +4,15 @@ let objects = [];
 let canvas, ctx;
 const width = 640;
 const height = 420;
-const newImage = document.getElementById("newImage");
+const newImage = document.getElementById("newImage"),
+  progressField = document.getElementById("progressField");
 
 let img = new Image(width, height);
 img.src = "./3.jpg";
 
 async function make() {
-  console.log("loading model...");
+  newImage.setAttribute("disabled", "disabled");
+  progressField.innerHTML = "<p>loading train dataset...</p>";
   objectDetector = await ml5.objectDetector("cocossd", startDetecting);
 
   canvas = createCanvas(width, height);
@@ -22,7 +24,7 @@ window.addEventListener("DOMContentLoaded", function () {
 });
 
 function startDetecting() {
-  console.log("model ready");
+  progressField.innerHTML = "<p>model ready...</p>";
   detect();
 }
 
@@ -63,8 +65,10 @@ function draw() {
     ctx.stroke();
     ctx.closePath();
   }
-  console.log("draw");
   console.log(objects);
+
+  progressField.innerHTML = "";
+  newImage.removeAttribute("disabled");
 }
 
 function createCanvas(w, h) {
