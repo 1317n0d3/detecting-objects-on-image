@@ -5,7 +5,8 @@ let canvas, ctx;
 const width = 640;
 const height = 420;
 const newImage = document.getElementById("newImage"),
-  progressField = document.getElementById("progressField");
+  progressField = document.getElementById("progressField"),
+  objectsParagraph = document.getElementById("objectsParagraph");
 
 let img = new Image(width, height);
 img.src = "./3.jpg";
@@ -17,6 +18,9 @@ async function make() {
 
   canvas = createCanvas(width, height);
   ctx = canvas.getContext("2d");
+
+  ctx.fillStyle = "#000000";
+  ctx.fillRect(0, 0, width, height);
 }
 
 window.addEventListener("DOMContentLoaded", function () {
@@ -47,6 +51,9 @@ function draw() {
   ctx.fillRect(0, 0, width, height);
 
   ctx.drawImage(img, 0, 0, width, height);
+
+  objectsParagraph.innerHTML = "<p>Finded objects:</p>";
+
   for (let i = 0; i < objects.length; i += 1) {
     ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
     ctx.fillRect(objects[i].x, objects[i].y, objects[i].width, 20);
@@ -64,6 +71,8 @@ function draw() {
     ctx.strokeStyle = "rgb(0, 0, 0)";
     ctx.stroke();
     ctx.closePath();
+
+    objectsParagraph.innerHTML += `<p>${objects[i].label} - ${objects[i].confidence}%</p>`;
   }
   console.log(objects);
 
@@ -92,6 +101,8 @@ function previewFile() {
   } else {
     img.src = "";
   }
+
+  objectsParagraph.innerHTML = "";
 }
 
 newImage.addEventListener("change", previewFile);
