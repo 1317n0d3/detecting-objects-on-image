@@ -9,7 +9,7 @@ const newImage = document.getElementById("newImage"),
   objectsParagraph = document.getElementById("objectsParagraph");
 
 let img = new Image(width, height);
-img.src = "./3.jpg";
+img.src = "./sample.jpg";
 
 async function make() {
   newImage.setAttribute("disabled", "disabled");
